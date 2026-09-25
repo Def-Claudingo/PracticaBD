@@ -5,84 +5,121 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="273.0" prefWidth="507.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="650.0" spacing="8.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ni.uam.edu.practicabd.Controllers.PracticaController">
    <children>
-      <HBox prefHeight="33.0" prefWidth="600.0" style="-fx-background-color: green;">
+      <HBox prefHeight="40.0" prefWidth="650.0" style="-fx-background-color: green;">
          <children>
             <Label text="Formulario Producto" textFill="WHITE">
                <font>
-                  <Font name="System Bold Italic" size="24.0" />
+                  <Font name="System Bold Italic" size="22.0" />
                </font>
             </Label>
          </children>
          <padding>
-            <Insets left="10.0" />
+            <Insets left="15.0" top="5.0" />
          </padding>
       </HBox>
-      <HBox prefHeight="38.0" prefWidth="600.0" spacing="135.0">
+
+      <HBox prefHeight="25.0" prefWidth="650.0" spacing="170.0">
          <children>
-            <Label text="Codigo" />
+            <Label text="Código" />
             <Label text="Nombre" />
          </children>
          <padding>
-            <Insets left="50.0" top="10.0" />
+            <Insets left="20.0" top="5.0" />
          </padding>
       </HBox>
-      <HBox prefHeight="38.0" prefWidth="600.0" spacing="21.0">
+
+      <HBox prefHeight="35.0" prefWidth="650.0" spacing="20.0">
          <children>
-            <TextField fx:id="txtCodigo" />
-            <TextField fx:id="txtNombre" />
+            <TextField fx:id="txtCodigo" prefWidth="190.0" promptText="Código único" />
+            <TextField fx:id="txtNombre" prefWidth="380.0" promptText="Nombre del producto" />
          </children>
          <padding>
-            <Insets left="10.0" />
+            <Insets left="20.0" />
          </padding>
       </HBox>
-      <HBox prefHeight="23.0" prefWidth="507.0" spacing="123.0">
+
+      <HBox prefHeight="25.0" prefWidth="650.0" spacing="150.0">
          <children>
             <Label text="Categoría" />
             <Label text="Precio" />
             <Label text="Existencia" />
          </children>
          <padding>
-            <Insets left="50.0" />
+            <Insets left="20.0" />
          </padding>
       </HBox>
-      <HBox prefHeight="38.0" prefWidth="600.0" spacing="20.0">
+
+      <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="650.0" spacing="15.0">
          <children>
-            <ComboBox fx:id="cmbCategoria" prefWidth="150.0" />
-            <TextField fx:id="txtPrecio" />
-            <TextField fx:id="txtExistencia" />
+            <ComboBox fx:id="cmbCategoria" prefWidth="140.0" promptText="Seleccione" />
+            <Button mnemonicParsing="false" onAction="#abrirCategorias" style="-fx-background-color: #0284c7; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="+ Categoría" />
+            <TextField fx:id="txtPrecio" prefWidth="120.0" promptText="0.00" />
+            <TextField fx:id="txtExistencia" prefWidth="120.0" promptText="0" />
          </children>
          <padding>
-            <Insets left="10.0" />
+            <Insets left="20.0" />
          </padding>
       </HBox>
-      <Label text="Ruta imagen">
-         <padding>
-            <Insets left="45.0" right="20.0" />
-         </padding>
-      </Label>
-      <HBox prefHeight="38.0" prefWidth="600.0" spacing="30.0">
+
+      <HBox prefHeight="25.0" prefWidth="650.0">
          <children>
-            <TextField fx:id="txtRuta" />
-            <CheckBox fx:id="chkActivo" mnemonicParsing="false" text="Está activo" />
+            <Label text="Ruta imagen:" />
          </children>
          <padding>
-            <Insets left="10.0" />
+            <Insets left="20.0" />
          </padding>
       </HBox>
-      <HBox prefHeight="52.0" prefWidth="507.0">
+
+      <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="650.0" spacing="20.0">
          <children>
-            <Button fx:id="btnGuardar" mnemonicParsing="false" prefHeight="26.0" prefWidth="81.0" text="Guardar" />
+            <TextField fx:id="txtRuta" prefWidth="350.0" promptText="Ruta o URL de la imagen" />
+            <CheckBox fx:id="chkActivo" mnemonicParsing="false" selected="true" text="Está activo" />
          </children>
          <padding>
-            <Insets left="10.0" />
+            <Insets left="20.0" />
          </padding>
       </HBox>
+
+      <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="650.0" spacing="15.0">
+         <children>
+            <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#btnGuardar" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: #16a34a; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Guardar Producto" />
+            <Button mnemonicParsing="false" onAction="#limpiarFormulario" prefHeight="30.0" prefWidth="90.0" style="-fx-background-color: #64748b; -fx-text-fill: white; -fx-cursor: hand;" text="Limpiar" />
+         </children>
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+      </HBox>
+
+      <VBox spacing="5.0" VBox.vgrow="ALWAYS">
+         <children>
+            <Label text="Productos en Base de Datos:" textFill="#334155">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tblProductos" prefHeight="210.0" prefWidth="610.0" VBox.vgrow="ALWAYS">
+               <columns>
+                  <TableColumn fx:id="colCodigo" prefWidth="90.0" text="Código" />
+                  <TableColumn fx:id="colNombre" prefWidth="170.0" text="Nombre" />
+                  <TableColumn fx:id="colCategoria" prefWidth="130.0" text="Categoría" />
+                  <TableColumn fx:id="colPrecio" prefWidth="85.0" text="Precio" />
+                  <TableColumn fx:id="colExistencia" prefWidth="75.0" text="Existencia" />
+                  <TableColumn fx:id="colActivo" prefWidth="60.0" text="Activo" />
+               </columns>
+            </TableView>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="20.0" right="20.0" />
+         </padding>
+      </VBox>
    </children>
 </VBox>
