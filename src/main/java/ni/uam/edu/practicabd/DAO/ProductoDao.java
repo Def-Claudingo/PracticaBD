@@ -143,4 +143,18 @@ public class ProductoDao implements CRUD<Producto> {
             e.printStackTrace();
         }
     }
+
+    public boolean existeCodigo(String codigo) {
+        String sql = "SELECT 1 FROM producto WHERE codigo = ?";
+        try (Connection connection = DataBaseConnection.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, codigo);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

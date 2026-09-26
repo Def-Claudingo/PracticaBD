@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="650.0" spacing="8.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ni.uam.edu.practicabd.Controllers.PracticaController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="650.0" spacing="8.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ni.uam.edu.practicabd.Controllers.PracticaController">
    <children>
       <HBox prefHeight="40.0" prefWidth="650.0" style="-fx-background-color: green;">
          <children>
@@ -79,9 +79,10 @@
          </padding>
       </HBox>
 
-      <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="650.0" spacing="20.0">
+      <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="650.0" spacing="10.0">
          <children>
-            <TextField fx:id="txtRuta" prefWidth="350.0" promptText="Ruta o URL de la imagen" />
+            <TextField fx:id="txtRuta" editable="false" prefWidth="290.0" promptText="Seleccione una imagen..." style="-fx-background-color: #f1f5f9; -fx-border-color: #cbd5e1; -fx-border-radius: 4;" />
+            <Button mnemonicParsing="false" onAction="#seleccionarRuta" prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: #0284c7; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Elegir ruta" />
             <CheckBox fx:id="chkActivo" mnemonicParsing="false" selected="true" text="Está activo" />
          </children>
          <padding>
@@ -108,12 +109,13 @@
             </Label>
             <TableView fx:id="tblProductos" prefHeight="210.0" prefWidth="610.0" VBox.vgrow="ALWAYS">
                <columns>
-                  <TableColumn fx:id="colCodigo" prefWidth="90.0" text="Código" />
-                  <TableColumn fx:id="colNombre" prefWidth="170.0" text="Nombre" />
-                  <TableColumn fx:id="colCategoria" prefWidth="130.0" text="Categoría" />
-                  <TableColumn fx:id="colPrecio" prefWidth="85.0" text="Precio" />
-                  <TableColumn fx:id="colExistencia" prefWidth="75.0" text="Existencia" />
-                  <TableColumn fx:id="colActivo" prefWidth="60.0" text="Activo" />
+                  <TableColumn fx:id="colCodigo" prefWidth="70.0" text="Código" />
+                  <TableColumn fx:id="colNombre" prefWidth="120.0" text="Nombre" />
+                  <TableColumn fx:id="colCategoria" prefWidth="95.0" text="Categoría" />
+                  <TableColumn fx:id="colPrecio" prefWidth="65.0" text="Precio" />
+                  <TableColumn fx:id="colExistencia" prefWidth="70.0" text="Existencia" />
+                  <TableColumn fx:id="colActivo" prefWidth="55.0" text="Activo" />
+                  <TableColumn fx:id="colRuta" prefWidth="135.0" text="Ruta Imagen" />
                </columns>
             </TableView>
          </children>

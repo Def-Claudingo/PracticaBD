@@ -9,12 +9,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ni.uam.edu.practicabd.DAO.CategoriaDao;
 import ni.uam.edu.practicabd.DAO.ProductoDao;
 import ni.uam.edu.practicabd.Modelos.Categoria;
 import ni.uam.edu.practicabd.Modelos.Producto;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 
@@ -36,6 +38,7 @@ public class PracticaController {
     @FXML private TableColumn<Producto, BigDecimal> colPrecio;
     @FXML private TableColumn<Producto, Integer> colExistencia;
     @FXML private TableColumn<Producto, Boolean> colActivo;
+    @FXML private TableColumn<Producto, String> colRuta;
 
     private ProductoDao productosDao = new ProductoDao();
     private CategoriaDao categoriaDao = new CategoriaDao();
@@ -65,12 +68,30 @@ public class PracticaController {
             colPrecio.setCellValueFactory(new PropertyValueFactory<>("precioVenta"));
             colExistencia.setCellValueFactory(new PropertyValueFactory<>("existencia"));
             colActivo.setCellValueFactory(new PropertyValueFactory<>("activo"));
+            colRuta.setCellValueFactory(new PropertyValueFactory<>("rutaImagen"));
         }
     }
 
     public void cargarProductos() {
         if (tblProductos != null) {
             tblProductos.setItems(FXCollections.observableArrayList(productosDao.listar()));
+        }
+    }
+
+    @FXML
+    public void seleccionarRuta(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar Imagen del Producto");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg", "*.webp", "*.gif")
+        );
+        Stage stage = null;
+        if (txtRuta != null && txtRuta.getScene() != null) {
+            stage = (Stage) txtRuta.getScene().getWindow();
+        }
+        File archivo = fileChooser.showOpenDialog(stage);
+        if (archivo != null) {
+            txtRuta.setText(archivo.getAbsolutePath());
         }
     }
 
@@ -115,6 +136,11 @@ public class PracticaController {
     private boolean validaciones() {
         if (txtCodigo == null || txtCodigo.getText() == null || txtCodigo.getText().trim().isEmpty()) {
             mostrarAlerta(Alert.AlertType.ERROR, "Campo vacío", "Debe ingresar el código del producto.");
+            return false;
+        }
+
+        if (productosDao.existeCodigo(txtCodigo.getText().trim())) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Código duplicado", "El código \"" + txtCodigo.getText().trim() + "\" ya existe. Ingrese un código diferente.");
             return false;
         }
 
