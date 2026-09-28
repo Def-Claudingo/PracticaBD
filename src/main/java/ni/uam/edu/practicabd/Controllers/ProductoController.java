@@ -19,8 +19,9 @@ import ni.uam.edu.practicabd.Modelos.Producto;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Optional;
 
-public class PracticaController {
+public class ProductoController {
 
     @FXML private TextField txtNombre;
     @FXML private TextField txtCodigo;
@@ -42,11 +43,13 @@ public class PracticaController {
 
     private ProductoDao productosDao = new ProductoDao();
     private CategoriaDao categoriaDao = new CategoriaDao();
+    private Producto productoSeleccionado = null;
 
     @FXML
     public void initialize() {
         cargarCategorias();
         configurarTabla();
+        configurarContextMenu();
         cargarProductos();
     }
 
@@ -69,6 +72,71 @@ public class PracticaController {
             colExistencia.setCellValueFactory(new PropertyValueFactory<>("existencia"));
             colActivo.setCellValueFactory(new PropertyValueFactory<>("activo"));
             colRuta.setCellValueFactory(new PropertyValueFactory<>("rutaImagen"));
+        }
+    }
+
+    private void configurarContextMenu() {
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem itemActualizar = new MenuItem("Actualizar");
+        MenuItem itemEliminar = new MenuItem("Eliminar");
+
+        itemActualizar.setOnAction(e -> prepararActualizar());
+        itemEliminar.setOnAction(e -> eliminarProducto());
+
+        contextMenu.getItems().addAll(itemActualizar, itemEliminar);
+        tblProductos.setContextMenu(contextMenu);
+    }
+
+    private void prepararActualizar() {
+        Producto seleccionado = tblProductos.getSelectionModel().getSelectedItem();
+        if (seleccionado == null) {
+            mostrarAlerta(Alert.AlertType.WARNING, "Selección", "Debe seleccionar un producto de la tabla.");
+            return;
+        }
+
+        productoSeleccionado = seleccionado;
+        txtCodigo.setText(seleccionado.getCodigo());
+        txtCodigo.setDisable(true);
+        txtNombre.setText(seleccionado.getNombre());
+        txtPrecio.setText(seleccionado.getPrecioVenta() != null ? seleccionado.getPrecioVenta().toString() : "");
+        txtExistencia.setText(String.valueOf(seleccionado.getExistencia()));
+        txtRuta.setText(seleccionado.getRutaImagen() != null ? seleccionado.getRutaImagen() : "");
+        if (chkActivo != null) {
+            chkActivo.setSelected(seleccionado.isActivo());
+        }
+
+        if (cmbCategoria != null && seleccionado.getCategoria() != null) {
+            for (Categoria cat : cmbCategoria.getItems()) {
+                if (cat.getId() != null && cat.getId().equals(seleccionado.getCategoria().getId())) {
+                    cmbCategoria.setValue(cat);
+                    break;
+                }
+            }
+        }
+
+        if (btnGuardar != null) {
+            btnGuardar.setText("Actualizar Producto");
+        }
+    }
+
+    private void eliminarProducto() {
+        Producto seleccionado = tblProductos.getSelectionModel().getSelectedItem();
+        if (seleccionado == null) {
+            mostrarAlerta(Alert.AlertType.WARNING, "Selección", "Debe seleccionar un producto de la tabla.");
+            return;
+        }
+
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "¿Desea eliminar el producto \"" + seleccionado.getNombre() + "\"?", ButtonType.YES, ButtonType.NO);
+        Optional<ButtonType> respuesta = confirm.showAndWait();
+        if (respuesta.isPresent() && respuesta.get() == ButtonType.YES) {
+            try {
+                productosDao.eliminar(seleccionado);
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Producto eliminado correctamente.");
+                limpiarFormulario();
+                cargarProductos();
+            } catch (Exception e) {
+                mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo eliminar el producto: " + e.getMessage());
+            }
         }
     }
 
@@ -110,9 +178,15 @@ public class PracticaController {
         boolean activo = chkActivo != null && chkActivo.isSelected();
 
         Producto producto = new Producto(null, nombre, codigo, categoria, precio, existencia, ruta, activo);
-        productosDao.guardar(producto);
 
-        mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Producto guardado correctamente en la base de datos.");
+        if (productoSeleccionado == null) {
+            productosDao.guardar(producto);
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Producto guardado correctamente en la base de datos.");
+        } else {
+            productosDao.actualizar(producto);
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Producto actualizado correctamente.");
+        }
+
         limpiarFormulario();
         cargarProductos();
     }
@@ -139,9 +213,11 @@ public class PracticaController {
             return false;
         }
 
-        if (productosDao.existeCodigo(txtCodigo.getText().trim())) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Código duplicado", "El código \"" + txtCodigo.getText().trim() + "\" ya existe. Ingrese un código diferente.");
-            return false;
+        if (productoSeleccionado == null) {
+            if (productosDao.existeCodigo(txtCodigo.getText().trim())) {
+                mostrarAlerta(Alert.AlertType.ERROR, "Código duplicado", "El código \"" + txtCodigo.getText().trim() + "\" ya existe. Ingrese un código diferente.");
+                return false;
+            }
         }
 
         if (txtNombre == null || txtNombre.getText() == null || txtNombre.getText().trim().isEmpty()) {
@@ -183,13 +259,20 @@ public class PracticaController {
 
     @FXML
     public void limpiarFormulario() {
-        if (txtCodigo != null) txtCodigo.clear();
+        productoSeleccionado = null;
+        if (txtCodigo != null) {
+            txtCodigo.clear();
+            txtCodigo.setDisable(false);
+        }
         if (txtNombre != null) txtNombre.clear();
         if (txtPrecio != null) txtPrecio.clear();
         if (cmbCategoria != null) cmbCategoria.getSelectionModel().clearSelection();
         if (txtRuta != null) txtRuta.clear();
         if (txtExistencia != null) txtExistencia.clear();
         if (chkActivo != null) chkActivo.setSelected(true);
+        if (btnGuardar != null) {
+            btnGuardar.setText("Guardar Producto");
+        }
     }
 
     public void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {

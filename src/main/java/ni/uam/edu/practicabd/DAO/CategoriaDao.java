@@ -48,4 +48,32 @@ public class CategoriaDao implements CRUD<Categoria> {
         }
         return lista;
     }
+
+    @Override
+    public void eliminar(Categoria entidad) {
+        String sql = "DELETE FROM categoria WHERE id = ?";
+        try (Connection con = DataBaseConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, entidad.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void actualizar(Categoria entidad) {
+        String sql = "UPDATE categoria SET nombre = ?, activa = ? WHERE id = ?";
+        try (Connection con = DataBaseConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, entidad.getNombre());
+            ps.setBoolean(2, entidad.isActiva());
+            ps.setInt(3, entidad.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }

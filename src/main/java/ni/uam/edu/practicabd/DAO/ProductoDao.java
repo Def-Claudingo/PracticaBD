@@ -77,6 +77,39 @@ public class ProductoDao implements CRUD<Producto> {
         return lista;
     }
 
+    @Override
+    public void eliminar(Producto entidad) {
+        String sql = "DELETE FROM producto WHERE codigo = ?";
+        try (Connection connection = DataBaseConnection.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, entidad.getCodigo());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void actualizar(Producto entidad) {
+        String sql = "UPDATE producto SET nombre = ?, categoria_id = ?, precio_venta = ?, existencia = ?, ruta_imagen = ?, activo = ? " +
+                "WHERE codigo = ?";
+        try (Connection connection = DataBaseConnection.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, entidad.getNombre());
+            ps.setInt(2, entidad.getCategoria() != null ? entidad.getCategoria().getId() : 0);
+            ps.setBigDecimal(3, entidad.getPrecioVenta());
+            ps.setInt(4, entidad.getExistencia());
+            ps.setString(5, entidad.getRutaImagen());
+            ps.setBoolean(6, entidad.isActivo());
+            ps.setString(7, entidad.getCodigo());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
     public boolean existeCodigo(String codigo) {
         String sql = "SELECT 1 FROM producto WHERE codigo = ?";
         try (Connection connection = DataBaseConnection.getConnection();
