@@ -60,7 +60,6 @@ public class CategoriaController {
         }
         cargarCategorias();
     }
-
     @FXML
     public void cerrar(ActionEvent event) {
         Stage stage = (Stage) txtNombre.getScene().getWindow();
