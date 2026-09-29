@@ -44,7 +44,7 @@ public class ProductoDao implements CRUD<Producto> {
         String sql = "SELECT p.codigo, p.nombre, p.categoria_id, p.precio_venta, p.existencia, p.ruta_imagen, p.activo, " +
                 "c.nombre AS categoria_nombre, c.activa AS categoria_activa " +
                 "FROM producto p " +
-                "LEFT JOIN categoria c ON p.categoria_id = c.id " +
+                "INNER JOIN categoria c ON p.categoria_id = c.id " +
                 "ORDER BY p.nombre";
 
         try (Connection connection = DataBaseConnection.getConnection();
