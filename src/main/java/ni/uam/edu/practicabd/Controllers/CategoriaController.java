@@ -14,6 +14,7 @@ import java.util.Optional;
 public class CategoriaController {
 
     @FXML private TextField txtNombre;
+    @FXML private TextField txtDatoFiltrar;
     @FXML private CheckBox chkActiva;
     @FXML private Button btnGuardar;
     @FXML private TableView<Categoria> tblCategorias;
@@ -124,6 +125,16 @@ public class CategoriaController {
         categoriaSeleccionada = null;
         if (btnGuardar != null) {
             btnGuardar.setText("Guardar");
+        }
+    }
+    @FXML
+    public void filtarDatosCategoria(){
+        String filtrar = txtDatoFiltrar.getText().trim();
+        if (filtrar == null) {
+            cargarCategorias();
+        }
+        else{
+            tblCategorias.setItems(FXCollections.observableArrayList(categoriaDao.buscarPorNombre(filtrar)));
         }
     }
 

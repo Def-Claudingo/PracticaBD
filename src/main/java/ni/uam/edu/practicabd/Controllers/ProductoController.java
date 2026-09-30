@@ -28,7 +28,9 @@ public class ProductoController {
     @FXML private TextField txtPrecio;
     @FXML private TextField txtRuta;
     @FXML private TextField txtExistencia;
+    @FXML private TextField txtDatoFiltrar;
     @FXML private ComboBox<Categoria> cmbCategoria;
+    @FXML private ComboBox<String> cmbCriterios;
     @FXML private CheckBox chkActivo;
     @FXML private Button btnGuardar;
 
@@ -48,6 +50,7 @@ public class ProductoController {
     @FXML
     public void initialize() {
         cargarCategorias();
+        cargarCriterios();
         configurarTabla();
         configurarContextMenu();
         cargarProductos();
@@ -59,6 +62,24 @@ public class ProductoController {
         }
     }
 
+    public void cargarCriterios(){
+        if(cmbCriterios != null) {
+            cmbCriterios.setItems(FXCollections.observableArrayList("Código", "Nombre", "Categoría",
+                    "Precio", "Existencia"));
+        }
+        if (txtDatoFiltrar != null) {
+            txtDatoFiltrar.setDisable(true);
+        }
+
+        if (cmbCriterios != null) {
+            cmbCriterios.setOnAction(event -> {
+                if (cmbCriterios.getValue() != null) {
+                    txtDatoFiltrar.setDisable(false);
+                    txtDatoFiltrar.requestFocus();
+                }
+            });
+        }
+    }
     private void configurarTabla() {
         if (tblProductos != null) {
             colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
@@ -190,7 +211,17 @@ public class ProductoController {
         limpiarFormulario();
         cargarProductos();
     }
-
+    @FXML
+    public void filtrarPorCriterio(){
+        String txtFiltrar = txtDatoFiltrar.getText().trim();
+        String filtrar = cmbCriterios.getValue().trim();
+        if (filtrar != null && txtFiltrar != null) {
+            tblProductos.setItems(FXCollections.observableArrayList(productosDao.buscarPorVariosCriterios(filtrar, txtFiltrar)));
+        }
+        else{
+            cargarProductos();
+        }
+    }
     @FXML
     public void abrirCategorias(ActionEvent event) {
         try {

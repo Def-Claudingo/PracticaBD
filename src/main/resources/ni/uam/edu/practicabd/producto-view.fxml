@@ -29,8 +29,14 @@
 
       <HBox prefHeight="25.0" prefWidth="650.0" spacing="170.0">
          <children>
-            <Label text="Código" />
-            <Label text="Nombre" />
+            <Label text="Código">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label text="Nombre">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
          </children>
          <padding>
             <Insets left="20.0" top="5.0" />
@@ -47,11 +53,29 @@
          </padding>
       </HBox>
 
-      <HBox prefHeight="25.0" prefWidth="650.0" spacing="150.0">
+      <HBox prefHeight="25.0" prefWidth="650.0" spacing="100.0">
          <children>
-            <Label text="Categoría" />
-            <Label text="Precio" />
-            <Label text="Existencia" />
+            <Label text="Categoría">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <padding>
+                  <Insets top="10.0" />
+               </padding></Label>
+            <Label prefHeight="13.0" prefWidth="171.0" text="Precio">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <padding>
+                  <Insets left="135.0" top="10.0" />
+               </padding></Label>
+            <Label text="Existencia">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <padding>
+                  <Insets top="10.0" />
+               </padding></Label>
          </children>
          <padding>
             <Insets left="20.0" />
@@ -70,9 +94,15 @@
          </padding>
       </HBox>
 
-      <HBox prefHeight="25.0" prefWidth="650.0">
+      <HBox prefHeight="20.0" prefWidth="650.0">
          <children>
-            <Label text="Ruta imagen:" />
+            <Label text="Ruta imagen:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <padding>
+                  <Insets top="10.0" />
+               </padding></Label>
          </children>
          <padding>
             <Insets left="20.0" />
@@ -94,34 +124,61 @@
          <children>
             <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#btnGuardar" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: #16a34a; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Guardar Producto" />
             <Button mnemonicParsing="false" onAction="#limpiarFormulario" prefHeight="30.0" prefWidth="90.0" style="-fx-background-color: #64748b; -fx-text-fill: white; -fx-cursor: hand;" text="Limpiar" />
+            <Label text="Criterios de búsqueda">
+               <HBox.margin>
+                  <Insets top="25.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <padding>
+                  <Insets left="25.0" />
+               </padding>
+            </Label>
+            <Label text="Filtrados de datos">
+               <HBox.margin>
+                  <Insets top="25.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets left="80.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
          </children>
          <padding>
             <Insets left="20.0" />
          </padding>
       </HBox>
-
-      <VBox spacing="5.0" VBox.vgrow="ALWAYS">
+      <HBox prefHeight="26.0" prefWidth="650.0" spacing="60.0">
          <children>
             <Label text="Productos en Base de Datos:" textFill="#334155">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <TableView fx:id="tblProductos" prefHeight="210.0" prefWidth="610.0" VBox.vgrow="ALWAYS">
-               <columns>
-                  <TableColumn fx:id="colCodigo" prefWidth="70.0" text="Código" />
-                  <TableColumn fx:id="colNombre" prefWidth="120.0" text="Nombre" />
-                  <TableColumn fx:id="colCategoria" prefWidth="95.0" text="Categoría" />
-                  <TableColumn fx:id="colPrecio" prefWidth="65.0" text="Precio" />
-                  <TableColumn fx:id="colExistencia" prefWidth="70.0" text="Existencia" />
-                  <TableColumn fx:id="colActivo" prefWidth="55.0" text="Activo" />
-                  <TableColumn fx:id="colRuta" prefWidth="135.0" text="Ruta Imagen" />
-               </columns>
-            </TableView>
+            <ComboBox fx:id="cmbCriterios" prefWidth="150.0">
+               <HBox.margin>
+                  <Insets left="35.0" />
+               </HBox.margin>
+            </ComboBox>
+            <TextField fx:id="txtDatoFiltrar" onKeyReleased="#filtrarPorCriterio" />
          </children>
-         <padding>
-            <Insets bottom="10.0" left="20.0" right="20.0" />
-         </padding>
-      </VBox>
+         <VBox.margin>
+            <Insets left="10.0" />
+         </VBox.margin>
+      </HBox>
+      <TableView fx:id="tblProductos" prefHeight="210.0" prefWidth="610.0" VBox.vgrow="ALWAYS">
+         <columns>
+            <TableColumn fx:id="colCodigo" prefWidth="64.00000250339508" text="Código" />
+            <TableColumn fx:id="colNombre" prefWidth="122.6666488647461" text="Nombre" />
+            <TableColumn fx:id="colCategoria" prefWidth="109.33338928222656" text="Categoría" />
+            <TableColumn fx:id="colPrecio" prefWidth="70.0" text="Precio" />
+            <TableColumn fx:id="colExistencia" prefWidth="70.666748046875" text="Existencia" />
+            <TableColumn fx:id="colActivo" prefWidth="58.666656494140625" text="Activo" />
+            <TableColumn fx:id="colRuta" prefWidth="153.99993896484375" text="Ruta Imagen" />
+         </columns>
+      </TableView>
    </children>
 </VBox>

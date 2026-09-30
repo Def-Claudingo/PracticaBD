@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="420.0" spacing="12.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ni.uam.edu.practicabd.Controllers.CategoriaController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="439.0" prefWidth="401.0" spacing="12.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ni.uam.edu.practicabd.Controllers.CategoriaController">
     <children>
         <HBox prefHeight="40.0" prefWidth="420.0" style="-fx-background-color: green;">
             <children>
@@ -28,9 +28,15 @@
 
         <VBox spacing="8.0">
             <children>
-                <Label text="Nombre de la categoría:" />
+                <Label text="Nombre de la categoría:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
                 <TextField fx:id="txtNombre" promptText="Ej. Bebidas, Alimentos..." />
-                <CheckBox fx:id="chkActiva" mnemonicParsing="false" selected="true" text="Categoría Activa" />
+                <CheckBox fx:id="chkActiva" mnemonicParsing="false" selected="true" text="Categoría Activa">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></CheckBox>
             </children>
             <padding>
                 <Insets left="20.0" right="20.0" top="5.0" />
@@ -41,30 +47,38 @@
             <children>
                 <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardar" style="-fx-background-color: #16a34a; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Guardar" />
                 <Button mnemonicParsing="false" onAction="#cerrar" style="-fx-background-color: #64748b; -fx-text-fill: white; -fx-cursor: hand;" text="Cerrar" />
+            <Label text="Filtrado por nombre">
+               <padding>
+                  <Insets left="60.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
             </children>
             <padding>
                 <Insets left="20.0" />
             </padding>
         </HBox>
-
-        <VBox spacing="5.0" VBox.vgrow="ALWAYS">
-            <children>
+      <HBox prefHeight="27.0" prefWidth="401.0" spacing="70.0">
+         <children>
                 <Label text="Categorías registradas:" textFill="#475569">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
                 </Label>
-                <TableView fx:id="tblCategorias" prefHeight="220.0" prefWidth="380.0" VBox.vgrow="ALWAYS">
-                    <columns>
-                        <TableColumn fx:id="colId" prefWidth="60.0" text="ID" />
-                        <TableColumn fx:id="colNombre" prefWidth="220.0" text="Nombre" />
-                        <TableColumn fx:id="colActiva" prefWidth="80.0" text="Activa" />
-                    </columns>
-                </TableView>
-            </children>
-            <padding>
-                <Insets bottom="15.0" left="20.0" right="20.0" top="5.0" />
-            </padding>
-        </VBox>
+            <TextField fx:id="txtDatoFiltrar" onKeyReleased="#filtarDatosCategoria" prefHeight="25.0" prefWidth="114.0" promptText="ej. bebidas" />
+         </children>
+      </HBox>
+          <TableView fx:id="tblCategorias" prefHeight="220.0" prefWidth="380.0" VBox.vgrow="ALWAYS">
+              <columns>
+                  <TableColumn fx:id="colId" prefWidth="72.66665399074554" text="ID" />
+                  <TableColumn fx:id="colNombre" prefWidth="213.99999237060547" text="Nombre" />
+                  <TableColumn fx:id="colActiva" prefWidth="112.66668701171875" text="Activa" />
+              </columns>
+          </TableView>
     </children>
 </VBox>
