@@ -278,10 +278,21 @@ public class ProductoController {
             return false;
         }
 
+        int valorExistencia;
         try {
-            Integer.parseInt(txtExistencia.getText().trim());
+            valorExistencia = Integer.parseInt(txtExistencia.getText().trim());
         } catch (NumberFormatException e) {
             mostrarAlerta(Alert.AlertType.ERROR, "Dato inválido", "La existencia debe ser un número entero.");
+            return false;
+        }
+
+        if (valorExistencia < 0) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Dato inválido", "La existencia no puede ser menor a 0.");
+            return false;
+        }
+
+        if (txtRuta == null || txtRuta.getText() == null || txtRuta.getText().trim().isEmpty()){
+            mostrarAlerta(Alert.AlertType.ERROR, "Campo vacío", "Debe seleccionar una ruta");
             return false;
         }
 
@@ -301,9 +312,7 @@ public class ProductoController {
         if (txtRuta != null) txtRuta.clear();
         if (txtExistencia != null) txtExistencia.clear();
         if (chkActivo != null) chkActivo.setSelected(true);
-        if (btnGuardar != null) {
-            btnGuardar.setText("Guardar Producto");
-        }
+        if (txtDatoFiltrar != null) txtDatoFiltrar.clear();
     }
 
     public void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {

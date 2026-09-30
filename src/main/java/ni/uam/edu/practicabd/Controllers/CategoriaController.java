@@ -60,9 +60,6 @@ public class CategoriaController {
         categoriaSeleccionada = seleccionada;
         txtNombre.setText(seleccionada.getNombre());
         chkActiva.setSelected(seleccionada.isActiva());
-        if (btnGuardar != null) {
-            btnGuardar.setText("Actualizar");
-        }
     }
 
     private void eliminarCategoria() {
