@@ -8,6 +8,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -31,12 +33,12 @@
             <children>
                 <Label text="Nombre de la categoría:">
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="System Bold" size="13.0" />
                </font></Label>
                 <TextField fx:id="txtNombre" promptText="Ej. Bebidas, Alimentos..." />
                 <CheckBox fx:id="chkActiva" mnemonicParsing="false" selected="true" text="Categoría Activa">
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="System Bold" size="13.0" />
                </font></CheckBox>
             </children>
             <padding>
@@ -46,23 +48,37 @@
 
         <HBox spacing="10.0">
             <children>
-                <Button fx:id="btnGuardar" defaultButton="true" mnemonicParsing="false" onAction="#guardar" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: #16a34a; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="📥 Guardar">
+                <Button fx:id="btnGuardar" defaultButton="true" mnemonicParsing="false" onAction="#guardar" prefHeight="28.0" prefWidth="89.0" style="-fx-background-color: #16a34a; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;">
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
-               </cursor></Button>
-                <Button mnemonicParsing="false" onAction="#cerrar" prefHeight="25.0" prefWidth="72.0" style="-fx-background-color: #64748b; -fx-text-fill: white; -fx-cursor: hand;" text="❌ Cerrar">
+               </cursor>
+               <graphic>
+                  <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Icons/ahorrar.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+                <Button mnemonicParsing="false" onAction="#cerrar" prefHeight="28.0" prefWidth="89.0" style="-fx-background-color: #64748b; -fx-text-fill: white; -fx-cursor: hand;">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
-               </cursor></Button>
+               </cursor>
+               <graphic>
+                  <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Icons/cerrar-sesion%20(1).png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
             <Label text="Filtrado por nombre">
                <padding>
-                  <Insets left="33.0" top="13.0" />
+                  <Insets left="20.0" top="13.0" />
                </padding>
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="System Bold" size="13.0" />
                </font>
             </Label>
             </children>
@@ -72,15 +88,15 @@
         </HBox>
       <HBox prefHeight="27.0" prefWidth="401.0" spacing="90.0">
          <children>
-                <Label text="Categorías registradas:" textFill="#475569">
+                <Label text="Categorías registradas:">
                     <font>
-                        <Font name="System Bold" size="12.0" />
+                        <Font name="System Bold" size="13.0" />
                     </font>
                <padding>
                   <Insets left="10.0" />
                </padding>
                 </Label>
-            <TextField fx:id="txtDatoFiltrar" onKeyReleased="#filtarDatosCategoria" prefHeight="25.0" prefWidth="114.0" promptText="ej. bebidas" />
+            <TextField fx:id="txtDatoFiltrar" onKeyReleased="#filtarDatosCategoria" prefHeight="25.0" prefWidth="122.0" promptText="ej. bebidas" />
          </children>
       </HBox>
           <TableView fx:id="tblCategorias" prefHeight="220.0" prefWidth="380.0" VBox.vgrow="ALWAYS">

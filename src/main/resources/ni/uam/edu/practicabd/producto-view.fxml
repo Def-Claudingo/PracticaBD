@@ -9,6 +9,9 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -32,11 +35,11 @@
          <children>
             <Label text="Código">
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="System Bold" size="13.0" />
                </font></Label>
             <Label text="Nombre">
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="System Bold" size="13.0" />
                </font></Label>
          </children>
          <padding>
@@ -58,21 +61,21 @@
          <children>
             <Label text="Categoría">
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="System Bold" size="13.0" />
                </font>
                <padding>
                   <Insets top="10.0" />
                </padding></Label>
-            <Label prefHeight="13.0" prefWidth="171.0" text="Precio">
+            <Label prefHeight="29.0" prefWidth="179.0" text="Precio">
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="System Bold" size="13.0" />
                </font>
                <padding>
                   <Insets left="135.0" top="10.0" />
                </padding></Label>
             <Label text="Existencia">
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="System Bold" size="13.0" />
                </font>
                <padding>
                   <Insets top="10.0" />
@@ -86,7 +89,7 @@
       <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="650.0" spacing="15.0">
          <children>
             <ComboBox fx:id="cmbCategoria" prefWidth="140.0" promptText="Seleccione" />
-            <Button mnemonicParsing="false" onAction="#abrirCategorias" style="-fx-background-color: #0284c7; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="+ Categoría">
+            <Button mnemonicParsing="false" onAction="#abrirCategorias" prefHeight="27.0" prefWidth="83.0" style="-fx-background-color: #0284c7; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="+ Categoría">
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor></Button>
@@ -103,7 +106,7 @@
          <children>
             <Label text="Ruta imagen:">
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="System Bold" size="13.0" />
                </font>
                <padding>
                   <Insets top="10.0" />
@@ -117,10 +120,25 @@
       <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="650.0" spacing="15.0">
          <children>
             <TextField fx:id="txtRuta" editable="false" prefWidth="290.0" promptText="Seleccione una imagen..." style="-fx-background-color: #f1f5f9; -fx-border-color: #cbd5e1; -fx-border-radius: 4;" />
-            <Button mnemonicParsing="false" onAction="#seleccionarRuta" prefHeight="25.0" prefWidth="92.0" style="-fx-background-color: #0284c7; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="📁 Elegir ruta">
+            <Button mnemonicParsing="false" onAction="#seleccionarRuta" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #0284c7; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;">
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
-               </cursor></Button>
+               </cursor>
+               <tooltip>
+                  <Tooltip text="Seleccionar ruta">
+                     <font>
+                        <Font name="System Bold Italic" size="11.0" />
+                     </font></Tooltip>
+               </tooltip>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Icons/carpeta%20(1).png" />
+                     </image></ImageView>
+               </graphic></Button>
          </children>
          <padding>
             <Insets left="20.0" />
@@ -129,40 +147,66 @@
 
       <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="650.0" spacing="15.0">
          <children>
-            <Button fx:id="btnGuardar" defaultButton="true" mnemonicParsing="false" onAction="#btnGuardar" prefHeight="30.0" prefWidth="117.0" style="-fx-background-color: #16a34a; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="📥  Guardar ">
+            <Button fx:id="btnGuardar" defaultButton="true" mnemonicParsing="false" onAction="#btnGuardar" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #16a34a; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
-               </cursor></Button>
-            <Button mnemonicParsing="false" onAction="#limpiarFormulario" prefHeight="30.0" prefWidth="117.0" style="-fx-background-color: grey; -fx-text-fill: white; -fx-cursor: hand;" text="✨ Limpiar">
+               </cursor>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Icons/ahorrar.png" />
+                     </image></ImageView>
+               </graphic>
+               <tooltip>
+                  <Tooltip text="Guardar producto">
+                     <font>
+                        <Font name="System Bold Italic" size="11.0" />
+                     </font>
+                  </Tooltip>
+               </tooltip></Button>
+            <Button mnemonicParsing="false" onAction="#limpiarFormulario" prefHeight="31.0" prefWidth="112.0" style="-fx-background-color: grey; -fx-text-fill: white; -fx-cursor: hand;">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
-               </cursor></Button>
+               </cursor>
+               <tooltip>
+                  <Tooltip text="Limpiar campos">
+                     <font>
+                        <Font name="System Bold Italic" size="11.0" />
+                     </font></Tooltip>
+               </tooltip>
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Icons/codigo-limpio.png" />
+                     </image></ImageView>
+               </graphic>
+            </Button>
             <Label text="Criterios de búsqueda">
                <HBox.margin>
                   <Insets top="25.0" />
                </HBox.margin>
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="System Bold" size="13.0" />
                </font>
-               <padding>
-                  <Insets left="5.0" />
-               </padding>
             </Label>
             <Label text="Filtrados de datos">
                <HBox.margin>
                   <Insets top="25.0" />
                </HBox.margin>
                <padding>
-                  <Insets left="80.0" />
+                  <Insets left="61.0" />
                </padding>
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="System Bold" size="13.0" />
                </font>
             </Label>
          </children>
@@ -170,19 +214,19 @@
             <Insets left="20.0" />
          </padding>
       </HBox>
-      <HBox prefHeight="26.0" prefWidth="650.0" spacing="60.0">
+      <HBox prefHeight="26.0" prefWidth="650.0" spacing="65.0">
          <children>
             <Label text="Productos en Base de Datos:" textFill="#334155">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <ComboBox fx:id="cmbCriterios" prefWidth="150.0">
+            <ComboBox fx:id="cmbCriterios" prefHeight="25.0" prefWidth="136.0">
                <HBox.margin>
                   <Insets left="35.0" />
                </HBox.margin>
             </ComboBox>
-            <TextField fx:id="txtDatoFiltrar" onKeyReleased="#filtrarPorCriterio" />
+            <TextField fx:id="txtDatoFiltrar" onKeyReleased="#filtrarPorCriterio" prefHeight="25.0" prefWidth="136.0" />
          </children>
          <VBox.margin>
             <Insets left="10.0" />
