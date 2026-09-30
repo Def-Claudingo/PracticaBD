@@ -2,6 +2,7 @@ package ni.uam.edu.practicabd.DAO;
 
 import ni.uam.edu.practicabd.Interfaces.CRUD;
 import ni.uam.edu.practicabd.Modelos.Categoria;
+import ni.uam.edu.practicabd.Modelos.Producto;
 import ni.uam.edu.practicabd.Util.DataBaseConnection;
 
 import java.sql.Connection;
@@ -48,7 +49,6 @@ public class CategoriaDao implements CRUD<Categoria> {
         }
         return lista;
     }
-
     @Override
     public void eliminar(Categoria entidad) {
         String sql = "DELETE FROM categoria WHERE id = ?";
@@ -76,4 +76,28 @@ public class CategoriaDao implements CRUD<Categoria> {
             throw new RuntimeException(e.getMessage());
         }
     }
-}
+    public List<Categoria> buscarPorNombre(String texto) {
+        List<Categoria> lista = new ArrayList<>();
+
+        String sql = "SELECT id, nombre, activa FROM categoria WHERE nombre  ILIKE ? ORDER BY nombre";
+
+        try (Connection connection = DataBaseConnection.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, "%" + texto + "%");
+
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Categoria c = new Categoria(
+                            rs.getInt("id"),
+                            rs.getString("nombre"),
+                            rs.getBoolean("activa")
+                    );
+                    lista.add(c);
+                }
+            }
+    }catch (SQLException e){
+        e.printStackTrace();
+        }
+        return lista;
+    }
+    }

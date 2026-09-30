@@ -123,4 +123,52 @@ public class ProductoDao implements CRUD<Producto> {
         }
         return false;
     }
+    public List<Producto> buscarPorVariosCriterios(String criterio, String texto) {
+        List<Producto> lista = new ArrayList<>();
+
+        String sql = "SELECT p.codigo, p.nombre, p.categoria_id, p.precio_venta, p.existencia, p.ruta_imagen, p.activo, " +
+                "c.nombre AS categoria_nombre, c.activa AS categoria_activa " +
+                "FROM producto p " +
+                "INNER JOIN categoria c ON p.categoria_id = c.id " +
+                "WHERE ";
+
+        switch (criterio) {
+            case "Código":
+                sql += "p.codigo ILIKE ?";
+                break;
+            case "Nombre":
+                sql += "p.nombre ILIKE ?";
+                break;
+            case "Categoría":
+                sql += "c.nombre ILIKE ?";
+                break;
+            case "Precio":
+                sql += "CAST(p.precio_venta AS TEXT) ILIKE ?";
+                break;
+            case "Existencia":
+                sql += "CAST(p.existencia AS TEXT) ILIKE ?";
+                break;
+            default:
+                sql += "p.nombre ILIKE ?";
+        }
+
+        sql += " ORDER BY p.nombre";
+
+        try (Connection connection = DataBaseConnection.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, "%" + texto + "%");
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Categoria cat = new Categoria(rs.getInt("categoria_id"), rs.getString("categoria_nombre"), rs.getBoolean("categoria_activa"));
+                    Producto p = new Producto(null, rs.getString("nombre"), rs.getString("codigo"), cat, rs.getBigDecimal("precio_venta"), rs.getInt("existencia"), rs.getString("ruta_imagen"), rs.getBoolean("activo"));
+                    lista.add(p);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
 }

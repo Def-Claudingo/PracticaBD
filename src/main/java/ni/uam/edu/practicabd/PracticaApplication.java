@@ -10,7 +10,7 @@ import java.io.IOException;
 public class PracticaApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(PracticaApplication.class.getResource("practica-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(PracticaApplication.class.getResource("producto-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 670, 600);
         stage.setTitle("Práctica BD - Gestión de Productos y Categorías");
         stage.setScene(scene);
