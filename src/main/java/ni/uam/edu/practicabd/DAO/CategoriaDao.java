@@ -41,7 +41,7 @@ public class CategoriaDao implements CRUD<Categoria> {
                         rs.getString("nombre"),
                         rs.getBoolean("activa")
                 );
-                lista.
+                lista.add(c);
             }
         } catch (SQLException e) {
             e.printStackTrace();
