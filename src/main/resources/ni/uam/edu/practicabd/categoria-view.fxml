@@ -45,11 +45,14 @@
 
         <HBox spacing="10.0">
             <children>
-                <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardar" style="-fx-background-color: #16a34a; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Guardar" />
-                <Button mnemonicParsing="false" onAction="#cerrar" style="-fx-background-color: #64748b; -fx-text-fill: white; -fx-cursor: hand;" text="Cerrar" />
+                <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardar" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: #16a34a; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="📥 Guardar" />
+                <Button mnemonicParsing="false" onAction="#cerrar" prefHeight="25.0" prefWidth="72.0" style="-fx-background-color: #64748b; -fx-text-fill: white; -fx-cursor: hand;" text="❌ Cerrar">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
             <Label text="Filtrado por nombre">
                <padding>
-                  <Insets left="60.0" />
+                  <Insets left="33.0" />
                </padding>
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -60,7 +63,7 @@
                 <Insets left="20.0" />
             </padding>
         </HBox>
-      <HBox prefHeight="27.0" prefWidth="401.0" spacing="70.0">
+      <HBox prefHeight="27.0" prefWidth="401.0" spacing="90.0">
          <children>
                 <Label text="Categorías registradas:" textFill="#475569">
                     <font>

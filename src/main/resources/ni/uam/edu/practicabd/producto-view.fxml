@@ -112,7 +112,7 @@
       <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="650.0" spacing="10.0">
          <children>
             <TextField fx:id="txtRuta" editable="false" prefWidth="290.0" promptText="Seleccione una imagen..." style="-fx-background-color: #f1f5f9; -fx-border-color: #cbd5e1; -fx-border-radius: 4;" />
-            <Button mnemonicParsing="false" onAction="#seleccionarRuta" prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: #0284c7; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Elegir ruta" />
+            <Button mnemonicParsing="false" onAction="#seleccionarRuta" prefHeight="25.0" prefWidth="92.0" style="-fx-background-color: #0284c7; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="📁 Elegir ruta" />
             <CheckBox fx:id="chkActivo" mnemonicParsing="false" selected="true" text="Está activo" />
          </children>
          <padding>
@@ -122,8 +122,14 @@
 
       <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="650.0" spacing="15.0">
          <children>
-            <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#btnGuardar" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: #16a34a; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Guardar Producto" />
-            <Button mnemonicParsing="false" onAction="#limpiarFormulario" prefHeight="30.0" prefWidth="90.0" style="-fx-background-color: #64748b; -fx-text-fill: white; -fx-cursor: hand;" text="Limpiar" />
+            <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#btnGuardar" prefHeight="30.0" prefWidth="117.0" style="-fx-background-color: #16a34a; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="📥  Guardar ">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin></Button>
+            <Button mnemonicParsing="false" onAction="#limpiarFormulario" prefHeight="30.0" prefWidth="117.0" style="-fx-background-color: grey; -fx-text-fill: white; -fx-cursor: hand;" text="✨ Limpiar">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
             <Label text="Criterios de búsqueda">
                <HBox.margin>
                   <Insets top="25.0" />

@@ -92,7 +92,8 @@ public class ProductoDao implements CRUD<Producto> {
 
     @Override
     public void actualizar(Producto entidad) {
-        String sql = "UPDATE producto SET nombre = ?, categoria_id = ?, precio_venta = ?, existencia = ?, ruta_imagen = ?, activo = ? " +
+        String sql = "UPDATE producto SET nombre = ?, categoria_id = ?, precio_venta = ?, " +
+                "existencia = ?, ruta_imagen = ?, activo = ? " +
                 "WHERE codigo = ?";
         try (Connection connection = DataBaseConnection.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
