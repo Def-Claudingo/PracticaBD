@@ -44,7 +44,7 @@ public class ProductoDao implements CRUD<Producto> {
         String sql = "SELECT p.codigo, p.nombre, p.categoria_id, p.precio_venta, p.existencia, p.ruta_imagen, p.activo, " +
                 "c.nombre AS categoria_nombre, c.activa AS categoria_activa " +
                 "FROM producto p " +
-                "LEFT JOIN categoria c ON p.categoria_id = c.id " +
+                "INNER JOIN categoria c ON p.categoria_id = c.id " +
                 "ORDER BY p.nombre";
 
         try (Connection connection = DataBaseConnection.getConnection();
@@ -75,6 +75,39 @@ public class ProductoDao implements CRUD<Producto> {
             System.err.println("Error al listar productos: " + e.getMessage());
         }
         return lista;
+    }
+
+    @Override
+    public void eliminar(Producto entidad) {
+        String sql = "DELETE FROM producto WHERE codigo = ?";
+        try (Connection connection = DataBaseConnection.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, entidad.getCodigo());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void actualizar(Producto entidad) {
+        String sql = "UPDATE producto SET nombre = ?, categoria_id = ?, precio_venta = ?, existencia = ?, ruta_imagen = ?, activo = ? " +
+                "WHERE codigo = ?";
+        try (Connection connection = DataBaseConnection.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, entidad.getNombre());
+            ps.setInt(2, entidad.getCategoria() != null ? entidad.getCategoria().getId() : 0);
+            ps.setBigDecimal(3, entidad.getPrecioVenta());
+            ps.setInt(4, entidad.getExistencia());
+            ps.setString(5, entidad.getRutaImagen());
+            ps.setBoolean(6, entidad.isActivo());
+            ps.setString(7, entidad.getCodigo());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     public boolean existeCodigo(String codigo) {
