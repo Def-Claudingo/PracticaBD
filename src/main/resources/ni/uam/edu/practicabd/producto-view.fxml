@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
@@ -16,7 +17,7 @@
    <children>
       <HBox prefHeight="40.0" prefWidth="650.0" style="-fx-background-color: green;">
          <children>
-            <Label text="Formulario Producto" textFill="WHITE">
+            <Label text="📋 Formulario Producto" textFill="WHITE">
                <font>
                   <Font name="System Bold Italic" size="22.0" />
                </font>
@@ -85,9 +86,13 @@
       <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="650.0" spacing="15.0">
          <children>
             <ComboBox fx:id="cmbCategoria" prefWidth="140.0" promptText="Seleccione" />
-            <Button mnemonicParsing="false" onAction="#abrirCategorias" style="-fx-background-color: #0284c7; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="+ Categoría" />
+            <Button mnemonicParsing="false" onAction="#abrirCategorias" style="-fx-background-color: #0284c7; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="+ Categoría">
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor></Button>
             <TextField fx:id="txtPrecio" prefWidth="120.0" promptText="0.00" />
             <TextField fx:id="txtExistencia" prefWidth="120.0" promptText="0" />
+            <CheckBox fx:id="chkActivo" mnemonicParsing="false" selected="true" text="Está activo" />
          </children>
          <padding>
             <Insets left="20.0" />
@@ -109,11 +114,13 @@
          </padding>
       </HBox>
 
-      <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="650.0" spacing="10.0">
+      <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="650.0" spacing="15.0">
          <children>
             <TextField fx:id="txtRuta" editable="false" prefWidth="290.0" promptText="Seleccione una imagen..." style="-fx-background-color: #f1f5f9; -fx-border-color: #cbd5e1; -fx-border-radius: 4;" />
-            <Button mnemonicParsing="false" onAction="#seleccionarRuta" prefHeight="25.0" prefWidth="92.0" style="-fx-background-color: #0284c7; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="📁 Elegir ruta" />
-            <CheckBox fx:id="chkActivo" mnemonicParsing="false" selected="true" text="Está activo" />
+            <Button mnemonicParsing="false" onAction="#seleccionarRuta" prefHeight="25.0" prefWidth="92.0" style="-fx-background-color: #0284c7; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="📁 Elegir ruta">
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor></Button>
          </children>
          <padding>
             <Insets left="20.0" />
@@ -122,14 +129,20 @@
 
       <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="650.0" spacing="15.0">
          <children>
-            <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#btnGuardar" prefHeight="30.0" prefWidth="117.0" style="-fx-background-color: #16a34a; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="📥  Guardar ">
+            <Button fx:id="btnGuardar" defaultButton="true" mnemonicParsing="false" onAction="#btnGuardar" prefHeight="30.0" prefWidth="117.0" style="-fx-background-color: #16a34a; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="📥  Guardar ">
                <HBox.margin>
                   <Insets />
-               </HBox.margin></Button>
+               </HBox.margin>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor></Button>
             <Button mnemonicParsing="false" onAction="#limpiarFormulario" prefHeight="30.0" prefWidth="117.0" style="-fx-background-color: grey; -fx-text-fill: white; -fx-cursor: hand;" text="✨ Limpiar">
                <font>
                   <Font name="System Bold" size="12.0" />
-               </font></Button>
+               </font>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor></Button>
             <Label text="Criterios de búsqueda">
                <HBox.margin>
                   <Insets top="25.0" />
@@ -138,7 +151,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
                <padding>
-                  <Insets left="25.0" />
+                  <Insets left="5.0" />
                </padding>
             </Label>
             <Label text="Filtrados de datos">
@@ -185,6 +198,9 @@
             <TableColumn fx:id="colActivo" prefWidth="58.666656494140625" text="Activo" />
             <TableColumn fx:id="colRuta" prefWidth="153.99993896484375" text="Ruta Imagen" />
          </columns>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
       </TableView>
    </children>
 </VBox>
