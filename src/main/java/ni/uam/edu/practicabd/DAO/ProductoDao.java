@@ -33,8 +33,8 @@ public class ProductoDao implements CRUD<Producto> {
             ps.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
             System.err.println("Error de base de datos al guardar producto: " + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -44,7 +44,7 @@ public class ProductoDao implements CRUD<Producto> {
         String sql = "SELECT p.codigo, p.nombre, p.categoria_id, p.precio_venta, p.existencia, p.ruta_imagen, p.activo, " +
                 "c.nombre AS categoria_nombre, c.activa AS categoria_activa " +
                 "FROM producto p " +
-                "INNER JOIN categoria c ON p.categoria_id = c.id " +
+                "LEFT JOIN categoria c ON p.categoria_id = c.id " +
                 "ORDER BY p.nombre";
 
         try (Connection connection = DataBaseConnection.getConnection();
@@ -71,7 +71,6 @@ public class ProductoDao implements CRUD<Producto> {
                 lista.add(p);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             System.err.println("Error al listar productos: " + e.getMessage());
         }
         return lista;
@@ -85,8 +84,8 @@ public class ProductoDao implements CRUD<Producto> {
             ps.setString(1, entidad.getCodigo());
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e.getMessage());
+            System.err.println("Error al eliminar producto: " + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -106,31 +105,50 @@ public class ProductoDao implements CRUD<Producto> {
             ps.setString(7, entidad.getCodigo());
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e.getMessage());
+            System.err.println("Error al actualizar producto: " + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
-    public boolean existeCodigo(String codigo) {
-        String sql = "SELECT 1 FROM producto WHERE codigo = ?";
+    public boolean existeCodigo(String codigo) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM producto WHERE LOWER(codigo) = LOWER(?)";
         try (Connection connection = DataBaseConnection.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, codigo);
+            ps.setString(1, codigo.trim());
             try (ResultSet rs = ps.executeQuery()) {
-                return rs.next();
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return false;
     }
+
+    public boolean existeCodigo(String codigo, String codigoActual) throws SQLException {
+        if (codigo.equalsIgnoreCase(codigoActual)) {
+            return false;
+        }
+        String sql = "SELECT COUNT(*) FROM producto WHERE LOWER(codigo) = LOWER(?) AND LOWER(codigo) <> LOWER(?)";
+        try (Connection connection = DataBaseConnection.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, codigo.trim());
+            ps.setString(2, codigoActual.trim());
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
+    }
+
     public List<Producto> buscarPorVariosCriterios(String criterio, String texto) {
         List<Producto> lista = new ArrayList<>();
 
         String sql = "SELECT p.codigo, p.nombre, p.categoria_id, p.precio_venta, p.existencia, p.ruta_imagen, p.activo, " +
                 "c.nombre AS categoria_nombre, c.activa AS categoria_activa " +
                 "FROM producto p " +
-                "INNER JOIN categoria c ON p.categoria_id = c.id " +
+                "LEFT JOIN categoria c ON p.categoria_id = c.id " +
                 "WHERE ";
 
         switch (criterio) {
@@ -168,7 +186,7 @@ public class ProductoDao implements CRUD<Producto> {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error al buscar productos: " + e.getMessage());
         }
         return lista;
     }
