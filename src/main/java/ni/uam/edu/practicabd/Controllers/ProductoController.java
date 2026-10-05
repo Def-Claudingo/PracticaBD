@@ -345,6 +345,7 @@ public class ProductoController {
             stage.setScene(new Scene(root));
             stage.showAndWait();
             cargarCategorias();
+            cargarProductos();
         } catch (IOException e) {
             e.printStackTrace();
             mostrarAlerta(Alert.AlertType.ERROR, "Error al abrir ventana", "No se pudo abrir la vista de categoría: " + e.getMessage());
