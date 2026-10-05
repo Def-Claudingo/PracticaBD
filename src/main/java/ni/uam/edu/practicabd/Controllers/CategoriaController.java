@@ -55,7 +55,7 @@ public class CategoriaController {
     private void prepararActualizar() {
         Categoria seleccionada = tblCategorias.getSelectionModel().getSelectedItem();
         if (seleccionada == null) {
-            mostrarAdvertencia("Selección requerida", "Debe seleccionar la categoría que desea actualizar.");
+            mostrarAlerta(Alert.AlertType.WARNING, "Selección requerida", "Debe seleccionar la categoría que desea actualizar.");
             return;
         }
         categoriaSeleccionada = seleccionada;
@@ -66,13 +66,13 @@ public class CategoriaController {
     private void eliminarCategoria() {
         Categoria seleccionada = tblCategorias.getSelectionModel().getSelectedItem();
         if (seleccionada == null) {
-            mostrarAdvertencia("Selección requerida", "Debe seleccionar la categoría que desea eliminar.");
+            mostrarAlerta(Alert.AlertType.WARNING, "Selección requerida", "Debe seleccionar la categoría que desea eliminar.");
             return;
         }
 
         try {
             if (categoriaDao.tieneProductos(seleccionada.getId())) {
-                mostrarAdvertencia("Integridad referencial", "No puede eliminar la categoría porque tiene productos asociados.");
+                mostrarAlerta(Alert.AlertType.WARNING, "Integridad referencial", "No puede eliminar la categoría porque tiene productos asociados.");
                 return;
             }
 
@@ -80,15 +80,15 @@ public class CategoriaController {
             Optional<ButtonType> respuesta = confirm.showAndWait();
             if (respuesta.isPresent() && respuesta.get() == ButtonType.YES) {
                 categoriaDao.eliminar(seleccionada);
-                mostrarExito("Categoría eliminada", "La categoría fue eliminada correctamente.");
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Categoría eliminada", "La categoría fue eliminada correctamente.");
                 limpiar();
                 cargarCategorias();
             }
         } catch (SQLException e) {
-            mostrarError("Error de base de datos", "No fue posible eliminar la categoría.");
+            mostrarAlerta(Alert.AlertType.ERROR, "Error de base de datos", "No fue posible eliminar la categoría.");
             System.err.println(e.getMessage());
         } catch (Exception e) {
-            mostrarError("Error inesperado", "Ocurrió un error al intentar eliminar la categoría.");
+            mostrarAlerta(Alert.AlertType.ERROR, "Error inesperado", "Ocurrió un error al intentar eliminar la categoría.");
             System.err.println(e.getMessage());
         }
     }
@@ -120,33 +120,33 @@ public class CategoriaController {
 
             if (categoriaSeleccionada == null) {
                 if (categoriaDao.existeNombre(c.getNombre())) {
-                    mostrarAdvertencia("Categoría duplicada", "Ya existe una categoría con ese nombre.");
+                    mostrarAlerta(Alert.AlertType.WARNING, "Categoría duplicada", "Ya existe una categoría con ese nombre.");
                     txtNombre.requestFocus();
                     return;
                 }
                 categoriaDao.guardar(c);
-                mostrarExito("Categoría registrada", "La información fue almacenada correctamente.");
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Categoría registrada", "La información fue almacenada correctamente.");
             } else {
                 if (categoriaDao.existeNombre(c.getNombre(), categoriaSeleccionada.getId())) {
-                    mostrarAdvertencia("Categoría duplicada", "Ya existe otra categoría con ese nombre.");
+                    mostrarAlerta(Alert.AlertType.WARNING, "Categoría duplicada", "Ya existe otra categoría con ese nombre.");
                     txtNombre.requestFocus();
                     return;
                 }
                 categoriaSeleccionada.setNombre(c.getNombre());
                 categoriaSeleccionada.setActiva(c.isActiva());
                 categoriaDao.actualizar(categoriaSeleccionada);
-                mostrarExito("Categoría actualizada", "La información fue actualizada correctamente.");
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Categoría actualizada", "La información fue actualizada correctamente.");
             }
 
             limpiar();
             cargarCategorias();
         } catch (IllegalArgumentException e) {
-            mostrarAdvertencia("Validación", e.getMessage());
+            mostrarAlerta(Alert.AlertType.WARNING, "Validación", e.getMessage());
         } catch (SQLException e) {
-            mostrarError("Error de base de datos", "No fue posible registrar o actualizar la categoría.");
+            mostrarAlerta(Alert.AlertType.ERROR, "Error de base de datos", "No fue posible registrar o actualizar la categoría.");
             System.err.println(e.getMessage());
         } catch (Exception e) {
-            mostrarError("Error inesperado", "Ocurrió un error al procesar la categoría.");
+            mostrarAlerta(Alert.AlertType.ERROR, "Error inesperado", "Ocurrió un error al procesar la categoría.");
             System.err.println(e.getMessage());
         }
     }
@@ -157,9 +157,6 @@ public class CategoriaController {
             chkActiva.setSelected(true);
         }
         categoriaSeleccionada = null;
-        if (btnGuardar != null) {
-            btnGuardar.setText("Guardar");
-        }
     }
 
     @FXML
@@ -177,30 +174,6 @@ public class CategoriaController {
     public void cerrar(ActionEvent event) {
         Stage stage = (Stage) txtNombre.getScene().getWindow();
         stage.close();
-    }
-
-    public void mostrarError(String titulo, String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.ERROR);
-        alerta.setTitle(titulo);
-        alerta.setHeaderText(null);
-        alerta.setContentText(mensaje);
-        alerta.showAndWait();
-    }
-
-    public void mostrarAdvertencia(String titulo, String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.WARNING);
-        alerta.setTitle(titulo);
-        alerta.setHeaderText(null);
-        alerta.setContentText(mensaje);
-        alerta.showAndWait();
-    }
-
-    public void mostrarExito(String titulo, String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle(titulo);
-        alerta.setHeaderText(null);
-        alerta.setContentText(mensaje);
-        alerta.showAndWait();
     }
 
     public void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {

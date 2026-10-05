@@ -151,7 +151,7 @@ public class ProductoController {
     private void prepararActualizar() {
         Producto seleccionado = tblProductos.getSelectionModel().getSelectedItem();
         if (seleccionado == null) {
-            mostrarAdvertencia("Selección requerida", "Debe seleccionar el producto que desea actualizar.");
+            mostrarAlerta(Alert.AlertType.WARNING, "Selección requerida", "Debe seleccionar el producto que desea actualizar.");
             return;
         }
         cargarProductoEnFormulario(seleccionado);
@@ -160,7 +160,7 @@ public class ProductoController {
     private void eliminarProducto() {
         Producto seleccionado = tblProductos.getSelectionModel().getSelectedItem();
         if (seleccionado == null) {
-            mostrarAdvertencia("Selección requerida", "Debe seleccionar el producto que desea eliminar.");
+            mostrarAlerta(Alert.AlertType.WARNING, "Selección requerida", "Debe seleccionar el producto que desea eliminar.");
             return;
         }
 
@@ -169,11 +169,11 @@ public class ProductoController {
         if (respuesta.isPresent() && respuesta.get() == ButtonType.YES) {
             try {
                 productosDao.eliminar(seleccionado);
-                mostrarExito("Producto eliminado", "El producto fue eliminado correctamente.");
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Producto eliminado", "El producto fue eliminado correctamente.");
                 limpiarFormulario();
                 cargarProductos();
             } catch (Exception e) {
-                mostrarError("Error de base de datos", "No fue posible eliminar el producto.");
+                mostrarAlerta(Alert.AlertType.ERROR, "Error de base de datos", "No fue posible eliminar el producto.");
                 System.err.println(e.getMessage());
             }
         }
@@ -268,31 +268,31 @@ public class ProductoController {
 
             if (productoSeleccionado == null) {
                 if (productosDao.existeCodigo(producto.getCodigo())) {
-                    mostrarAdvertencia("Código duplicado", "Ya existe un producto con ese código.");
+                    mostrarAlerta(Alert.AlertType.WARNING, "Código duplicado", "Ya existe un producto con ese código.");
                     txtCodigo.requestFocus();
                     return;
                 }
                 productosDao.guardar(producto);
-                mostrarExito("Producto registrado", "La información fue almacenada correctamente.");
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Producto registrado", "La información fue almacenada correctamente.");
             } else {
                 if (productosDao.existeCodigo(producto.getCodigo(), productoSeleccionado.getCodigo())) {
-                    mostrarAdvertencia("Código duplicado", "Ya existe otro producto con ese código.");
+                    mostrarAlerta(Alert.AlertType.WARNING, "Código duplicado", "Ya existe otro producto con ese código.");
                     txtCodigo.requestFocus();
                     return;
                 }
                 productosDao.actualizar(producto);
-                mostrarExito("Producto actualizado", "La información fue actualizada correctamente.");
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Producto actualizado", "La información fue actualizada correctamente.");
             }
 
             limpiarFormulario();
             cargarProductos();
         } catch (IllegalArgumentException e) {
-            mostrarAdvertencia("Validación", e.getMessage());
+            mostrarAlerta(Alert.AlertType.WARNING, "Validación", e.getMessage());
         } catch (SQLException e) {
-            mostrarError("Error de base de datos", "No fue posible registrar o actualizar el producto.");
+            mostrarAlerta(Alert.AlertType.ERROR, "Error de base de datos", "No fue posible registrar o actualizar el producto.");
             System.err.println(e.getMessage());
         } catch (Exception e) {
-            mostrarError("Error inesperado", "Ocurrió un error al procesar el producto.");
+            mostrarAlerta(Alert.AlertType.ERROR, "Error inesperado", "Ocurrió un error al procesar el producto.");
             System.err.println(e.getMessage());
         }
     }
@@ -347,7 +347,7 @@ public class ProductoController {
             cargarCategorias();
         } catch (IOException e) {
             e.printStackTrace();
-            mostrarError("Error al abrir ventana", "No se pudo abrir la vista de categoría: " + e.getMessage());
+            mostrarAlerta(Alert.AlertType.ERROR, "Error al abrir ventana", "No se pudo abrir la vista de categoría: " + e.getMessage());
         }
     }
 
@@ -367,30 +367,6 @@ public class ProductoController {
         if (txtDatoFiltrar != null) txtDatoFiltrar.clear();
         if (listaFiltrada != null) listaFiltrada.setPredicate(p -> true);
         if (tblProductos != null) tblProductos.getSelectionModel().clearSelection();
-    }
-
-    public void mostrarError(String titulo, String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.ERROR);
-        alerta.setTitle(titulo);
-        alerta.setHeaderText(null);
-        alerta.setContentText(mensaje);
-        alerta.showAndWait();
-    }
-
-    public void mostrarAdvertencia(String titulo, String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.WARNING);
-        alerta.setTitle(titulo);
-        alerta.setHeaderText(null);
-        alerta.setContentText(mensaje);
-        alerta.showAndWait();
-    }
-
-    public void mostrarExito(String titulo, String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle(titulo);
-        alerta.setHeaderText(null);
-        alerta.setContentText(mensaje);
-        alerta.showAndWait();
     }
 
     public void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
