@@ -2,7 +2,6 @@ package ni.uam.edu.practicabd.DAO;
 
 import ni.uam.edu.practicabd.Interfaces.CRUD;
 import ni.uam.edu.practicabd.Modelos.Categoria;
-import ni.uam.edu.practicabd.Modelos.Producto;
 import ni.uam.edu.practicabd.Util.DataBaseConnection;
 
 import java.sql.Connection;
@@ -23,8 +22,8 @@ public class CategoriaDao implements CRUD<Categoria> {
             ps.setBoolean(2, entidad.isActiva());
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
             System.err.println("Error al guardar categoria: " + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -44,11 +43,11 @@ public class CategoriaDao implements CRUD<Categoria> {
                 lista.add(c);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             System.err.println("Error al listar categorias: " + e.getMessage());
         }
         return lista;
     }
+
     @Override
     public void eliminar(Categoria entidad) {
         String sql = "DELETE FROM categoria WHERE id = ?";
@@ -57,8 +56,8 @@ public class CategoriaDao implements CRUD<Categoria> {
             ps.setInt(1, entidad.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e.getMessage());
+            System.err.println("Error al eliminar categoria: " + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -72,20 +71,63 @@ public class CategoriaDao implements CRUD<Categoria> {
             ps.setInt(3, entidad.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e.getMessage());
+            System.err.println("Error al actualizar categoria: " + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
+
+    public boolean existeNombre(String nombre) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM categoria WHERE LOWER(nombre) = LOWER(?)";
+        try (Connection con = DataBaseConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, nombre.trim());
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean existeNombre(String nombre, int idExcluir) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM categoria WHERE LOWER(nombre) = LOWER(?) AND id <> ?";
+        try (Connection con = DataBaseConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, nombre.trim());
+            ps.setInt(2, idExcluir);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean tieneProductos(int categoriaId) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM producto WHERE categoria_id = ?";
+        try (Connection con = DataBaseConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, categoriaId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
+    }
+
     public List<Categoria> buscarPorNombre(String texto) {
         List<Categoria> lista = new ArrayList<>();
-
-        String sql = "SELECT id, nombre, activa FROM categoria WHERE nombre  ILIKE ? ORDER BY nombre";
+        String sql = "SELECT id, nombre, activa FROM categoria WHERE nombre ILIKE ? ORDER BY nombre";
 
         try (Connection connection = DataBaseConnection.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, "%" + texto + "%");
 
-            try ( ResultSet rs = ps.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Categoria c = new Categoria(
                             rs.getInt("id"),
@@ -95,9 +137,9 @@ public class CategoriaDao implements CRUD<Categoria> {
                     lista.add(c);
                 }
             }
-    }catch (SQLException e){
-        e.printStackTrace();
+        } catch (SQLException e) {
+            System.err.println("Error al buscar categorias: " + e.getMessage());
         }
         return lista;
     }
-    }
+}
